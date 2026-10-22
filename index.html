@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Ôn Tập Toán Lớp 3 - Hình Tròn, Tâm, Bán Kính & Đường Kính</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Lexend', sans-serif;
+        }
+        
+        .bubbles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(147, 197, 253, 0.3));
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5), 0 4px 10px rgba(0,0,0,0.05);
+            animation: floatUp 12s infinite ease-in-out;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .radio-custom:checked + label {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
+
+        .pulse-btn { animation: pulse-glow 2s infinite; }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.8); }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 relative flex flex-col justify-between overflow-x-hidden">
+
+    <div class="bubbles-container" id="bubblesContainer"></div>
+
+    <!-- HEADER / BAR -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-30 border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-blue-500 to-indigo-600 text-white p-2.5 rounded-2xl shadow-md">
+                    <i class="fa-solid me-0 fa-shapes text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg text-slate-800 leading-tight">Luyện Tập Toán 3</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Hình tròn, Tâm, Bán kính & Đường kính</p>
+                </div>
+            </div>
+
+            <div id="timerContainer" class="hidden items-center space-x-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl text-amber-700 font-bold text-sm md:text-base">
+                <i class="fa-solid fa-clock text-amber-500 animate-pulse"></i>
+                <span id="timerDisplay">35:00</span>
+            </div>
+
+            <div class="flex items-center space-x-2 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-full">
+                <i class="fa-solid fa-graduation-cap text-blue-600"></i>
+                <span class="text-xs md:text-sm font-bold text-blue-700" id="studentNameHeader">Cẩm Tiên</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-6 z-10 flex-grow">
+
+        <!-- 1. TRANG MỞ ĐẦU -->
+        <div id="startScreen" class="bg-white rounded-3xl shadow-xl p-6 md:p-10 border border-slate-100 text-center relative overflow-hidden transition-all duration-300">
+            <div class="inline-block p-4 bg-blue-50 rounded-full mb-4 text-blue-600">
+                <i class="fa-solid fa-compact-disc text-5xl md:text-6xl animate-spin" style="animation-duration: 10s;"></i>
+            </div>
+            
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-2">ĐỀ ÔN TẬP TOÁN LỚP 3</h2>
+            <p class="text-blue-600 font-bold text-lg md:text-xl mb-6">Chuyên đề: Hình Tròn - Tâm, Bán Kính & Đường Kính</p>
+
+            <div class="bg-slate-50 rounded-2xl p-5 mb-8 text-left border border-slate-200 max-w-lg mx-auto space-y-3">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                    <span class="text-slate-500 text-sm"><i class="fa-solid fa-user text-blue-500 mr-2"></i>Học sinh:</span>
+                    <span class="font-bold text-slate-800 text-base">Cẩm Tiên</span>
+                </div>
+                <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                    <span class="text-slate-500 text-sm"><i class="fa-solid fa-list-check text-indigo-500 mr-2"></i>Số lượng câu hỏi:</span>
+                    <span class="font-bold text-slate-800 text-base">25 câu hỏi</span>
+                </div>
+                <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                    <span class="text-slate-500 text-sm"><i class="fa-solid fa-stopwatch text-amber-500 mr-2"></i>Thời gian làm bài:</span>
+                    <span class="font-bold text-slate-800 text-base">35 phút</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500 text-sm"><i class="fa-solid fa-layer-group text-emerald-500 mr-2"></i>Cấu trúc bài kiểm tra:</span>
+                    <span class="font-medium text-slate-700 text-xs md:text-sm">10 Trắc nghiệm | 10 Điền số | 5 Đúng/Sai</span>
+                </div>
+            </div>
+
+            <div class="text-slate-500 text-xs md:text-sm mb-8 max-w-md mx-auto bg-amber-50 p-3 rounded-xl border border-amber-200 text-amber-800">
+                <i class="fa-solid fa-lightbulb mr-1 text-amber-500"></i> Các câu hỏi sẽ được chọn và xáo trộn ngẫu nhiên mỗi lần em vào làm bài. Hãy đọc kỹ câu hỏi trước khi trả lời nhé!
+            </div>
+
+            <button onclick="startQuiz()" class="pulse-btn w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-2xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center justify-center mx-auto space-x-3">
+                <span>BẮT ĐẦU LÀM BÀI</span>
+                <i class="fa-solid fa-circle-play text-xl"></i>
+            </button>
+        </div>
+
+        <!-- 2. TRANG LÀM BÀI -->
+        <div id="quizScreen" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="w-full sm:w-2/3">
+                    <div class="flex justify-between text-xs font-semibold text-slate-500 mb-1">
+                        <span>Tiến độ hoàn thành</span>
+                        <span id="progressText">0/25 câu</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
+                        <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button onclick="confirmSubmit()" class="w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Nộp Bài</span>
+                </button>
+            </div>
+
+            <form id="quizForm" class="space-y-6">
+                <div id="questionsList" class="space-y-6"></div>
+            </form>
+
+            <div class="text-center pt-4 pb-8">
+                <button onclick="confirmSubmit()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base rounded-2xl shadow-lg transition duration-200 hover:scale-105 flex items-center justify-center mx-auto space-x-2">
+                    <i class="fa-solid fa-check-circle text-xl"></i>
+                    <span>HOÀN THÀNH VÀ NỘP BÀI</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. TRANG KẾT QUẢ -->
+        <div id="resultScreen" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-slate-100 text-center relative overflow-hidden">
+                <div class="inline-block p-4 bg-emerald-50 rounded-full mb-3 text-emerald-600">
+                    <i class="fa-solid fa-trophy text-4xl md:text-5xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-1">KẾT QUẢ BÀI ÔN TẬP</h2>
+                <p class="text-slate-500 text-sm mb-6">Em đã hoàn thành xong bài luyện tập Hình Tròn!</p>
+
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-3xl p-6 max-w-sm mx-auto shadow-lg mb-8 relative">
+                    <div class="text-xs font-semibold uppercase tracking-wider text-blue-100 mb-1">Điểm số của Cẩm Tiên</div>
+                    <div class="text-5xl md:text-6xl font-black my-2" id="finalScore">0 / 10</div>
+                    <div class="text-sm font-medium text-blue-100" id="scoreFeedback">Cố gắng nhiều hơn nhé!</div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-left max-w-3xl mx-auto mb-6">
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-xs text-slate-400 block font-medium">Học sinh</span>
+                        <span class="text-sm font-bold text-slate-800">Cẩm Tiên</span>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-xs text-slate-400 block font-medium">Giờ bắt đầu</span>
+                        <span class="text-sm font-bold text-slate-800" id="startTimeText">--:--</span>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-xs text-slate-400 block font-medium">Giờ nộp bài</span>
+                        <span class="text-sm font-bold text-slate-800" id="endTimeText">--:--</span>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <span class="text-xs text-slate-400 block font-medium">Thời gian làm</span>
+                        <span class="text-sm font-bold text-slate-800" id="durationText">0 phút</span>
+                    </div>
+                </div>
+
+                <!-- Thêm thông báo trạng thái gửi Google Sheet -->
+                <div id="sheetStatus" class="text-xs font-semibold text-slate-500 mb-4 py-2 px-4 rounded-xl bg-slate-50 inline-block">
+                    <i class="fa-solid fa-spinner fa-spin text-blue-500 mr-1.5"></i> Đang tự động đồng bộ kết quả lên Google Sheets...
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition flex items-center space-x-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Làm Lại Đề Khác</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-6 md:p-8 border border-slate-100 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center">
+                        <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Chi Tiết Đáp Án & Lời Giải
+                    </h3>
+                    <span class="text-xs md:text-sm bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-medium" id="correctRatioText">Đúng: 0/25 câu</span>
+                </div>
+
+                <div id="reviewList" class="space-y-6"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 z-10">
+        <p>© Chương trình Luyện tập Toán Lớp 3 - Chuyên đề Hình tròn</p>
+    </footer>
+
+    <!-- MODAL XÁC NHẬN NỘP BÀI -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 max-w-sm w-full text-center space-y-4 border border-slate-100">
+            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">Xác Nhận Nộp Bài?</h3>
+            <p class="text-sm text-slate-500" id="modalUnansweredText">Em có chắc chắn muốn hoàn thành và nộp bài kiểm tra ngay bây giờ?</p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition">Làm Tiếp</button>
+                <button onclick="submitQuiz()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition shadow">Nộp Bài</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcDUCaFDOjzQYWI68F7-ZcIOerTqAUvalRHD6wjGefAw-mzI9pViMsbGS9TQXg362D/exec";
+
+        const questionBank = {
+            mcq: [
+                { id: "mcq_1", type: "mcq", question: "Đoạn thẳng nối tâm O của hình tròn với một điểm trên đường tròn được gọi là gì?", options: ["Bán kính", "Đường kính", "Chu vi", "Cạnh"], correct: 0, explanation: "Theo định nghĩa: Đoạn thẳng nối tâm O với một điểm bất kỳ trên đường tròn là bán kính của hình tròn đó." },
+                { id: "mcq_2", type: "mcq", question: "Trong một hình tròn, độ dài đường kính gấp mấy lần độ dài bán kính?", options: ["2 lần", "3 lần", "4 lần", "Bằng nhau"], correct: 0, explanation: "Đường kính dài gấp 2 lần bán kính (Đường kính = Bán kính × 2)." },
+                { id: "mcq_3", type: "mcq", question: "Một hình tròn có bán kính bằng 6 cm. Đường kính của hình tròn đó là:", options: ["12 cm", "3 cm", "18 cm", "36 cm"], correct: 0, explanation: "Đường kính = Bán kính × 2 = 6 × 2 = 12 cm." },
+                { id: "mcq_4", type: "mcq", question: "Cho hình tròn có đường kính 16 cm. Bán kính của hình tròn đó là:", options: ["8 cm", "32 cm", "4 cm", "10 cm"], correct: 0, explanation: "Bán kính = Đường kính : 2 = 16 : 2 = 8 cm." },
+                { id: "mcq_5", type: "mcq", question: "Đoạn thẳng đi qua tâm của hình tròn và cắt đường tròn tại hai điểm được gọi là:", options: ["Đường kính", "Bán kính", "Tâm hình tròn", "Cung tròn"], correct: 0, explanation: "Đoạn thẳng đi qua tâm và nối hai điểm trên đường tròn gọi là đường kính." },
+                { id: "mcq_6", type: "mcq", question: "Tâm của hình tròn nằm ở vị trí nào so với đường kính của hình tròn đó?", options: ["Là trung điểm của đường kính", "Nằm ngoài đường kính", "Ở đầu đường kính", "Không liên quan"], correct: 0, explanation: "Tâm O chính là trung điểm của đường kính hình tròn." },
+                { id: "mcq_7", type: "mcq", question: "Trong một hình tròn có thể vẽ được bao nhiêu bán kính?", options: ["Vô số (rất nhiều) bán kính", "Chỉ vẽ được 1 bán kính", "Chỉ vẽ được 2 bán kính", "Chỉ vẽ được 4 bán kính"], correct: 0, explanation: "Một hình tròn có vô số bán kính và tất cả các bán kính đều bằng nhau." },
+                { id: "mcq_8", type: "mcq", question: "Một hình tròn có mấy tâm?", options: ["Chỉ có 1 tâm duy nhất", "Có 2 tâm", "Có 4 tâm", "Có vô số tâm"], correct: 0, explanation: "Mỗi hình tròn chỉ có duy nhất 1 tâm chỉ định." },
+                { id: "mcq_9", type: "mcq", question: "Cho hình tròn tâm O. Đoạn thẳng OM được gọi là bán kính khi điểm M nằm ở đâu?", options: ["Nằm trên đường tròn", "Nằm ngoài hình tròn", "Trùng với tâm O", "Nằm bất kỳ"], correct: 0, explanation: "Bán kính OM yêu cầu điểm M phải nằm trên đường tròn." },
+                { id: "mcq_10", type: "mcq", question: "Đường kính AB của hình tròn tâm O có độ dài 20 cm. Độ dài đoạn thẳng OA là:", options: ["10 cm", "40 cm", "20 cm", "5 cm"], correct: 0, explanation: "OA là bán kính của hình tròn. Độ dài OA = 20 : 2 = 10 cm." },
+                { id: "mcq_11", type: "mcq", question: "So sánh độ dài của hai bán kính bất kỳ trong cùng một hình tròn:", options: ["Bằng nhau", "Bán kính này lớn hơn bán kính kia", "Không bằng nhau", "Tùy thuộc cách vẽ"], correct: 0, explanation: "Tất cả các bán kính của cùng một hình tròn đều có độ dài bằng nhau." },
+                { id: "mcq_12", type: "mcq", question: "Cho bán kính hình tròn là 9 cm. Nếu tăng bán kính lên 2 lần thì đường kính mới sẽ là bao nhiêu?", options: ["36 cm", "18 cm", "27 cm", "9 cm"], correct: 0, explanation: "Bán kính mới = 9 × 2 = 18 cm. Đường kính mới = 18 × 2 = 36 cm." },
+                { id: "mcq_13", type: "mcq", question: "Vật nào sau đây có dạng hình tròn?", options: ["Mặt đồng hồ treo tường tròn", "Cuốn sách giáo khoa", "Cánh cửa phòng", "Hộp sữa giấy"], correct: 0, explanation: "Mặt đồng hồ tròn có dạng hình tròn thực tế." },
+                { id: "mcq_14", type: "mcq", question: "Đoạn thẳng CD đi qua tâm O của hình tròn và nối hai điểm C, D trên đường tròn. Chọn câu đúng:", options: ["CD là đường kính của hình tròn", "CD là bán kính của hình tròn", "O không phải trung điểm CD", "CD dài bằng bán kính"], correct: 0, explanation: "Đoạn thẳng đi qua tâm và nối hai điểm trên đường tròn chính là đường kính." },
+                { id: "mcq_15", type: "mcq", question: "Hình tròn A có bán kính 5 cm. Hình tròn B có đường kính 10 cm. Nhận xét nào sau đây đúng?", options: ["Hai hình tròn có kích thước bằng nhau", "Hình tròn A lớn hơn hình tròn B", "Hình tròn B nhỏ hơn hình tròn A", "Đường kính hình tròn A là 5cm"], correct: 0, explanation: "Đường kính hình tròn A là 5 × 2 = 10 cm, bằng đường kính hình tròn B nên hai hình bằng nhau." }
+            ],
+
+            fill: [
+                { id: "fill_1", type: "fill", question: "Một hình tròn có bán kính là 7 cm. Đường kính của hình tròn đó là bao nhiêu cm?", correct: "14", unit: "cm", explanation: "Đường kính = Bán kính × 2 = 7 × 2 = 14 cm." },
+                { id: "fill_2", type: "fill", question: "Một hình tròn có đường kính là 18 cm. Bán kính của hình tròn đó dài bao nhiêu cm?", correct: "9", unit: "cm", explanation: "Bán kính = Đường kính : 2 = 18 : 2 = 9 cm." },
+                { id: "fill_3", type: "fill", question: "Biết đoạn thẳng OA là bán kính của hình tròn tâm O và OA = 15 cm. Đường kính của hình tròn này bằng bao nhiêu cm?", correct: "30", unit: "cm", explanation: "Đường kính = OA × 2 = 15 × 2 = 30 cm." },
+                { id: "fill_4", type: "fill", question: "Đường kính của bánh xe đạp hình tròn là 50 cm. Bán kính của bánh xe đạp đó là bao nhiêu cm?", correct: "25", unit: "cm", explanation: "Bán kính = 50 : 2 = 25 cm." },
+                { id: "fill_5", type: "fill", question: "Nếu bán kính của hình tròn là 10 cm thì tổng độ dài của 3 bán kính hình tròn đó là bao nhiêu cm?", correct: "30", unit: "cm", explanation: "Tổng độ dài 3 bán kính = 10 × 3 = 30 cm." },
+                { id: "fill_6", type: "fill", question: "Đoạn thẳng MN là đường kính của hình tròn tâm O. Nếu OM = 12 cm thì đoạn thẳng MN dài bao nhiêu cm?", correct: "24", unit: "cm", explanation: "OM là bán kính hình tròn, do đó đường kính MN = OM × 2 = 12 × 2 = 24 cm." },
+                { id: "fill_7", type: "fill", question: "Hình tròn có bán kính 8 cm. Hiệu độ dài giữa đường kính và bán kính của hình tròn đó là bao nhiêu cm?", correct: "8", unit: "cm", explanation: "Đường kính = 8 × 2 = 16 cm. Hiệu = 16 - 8 = 8 cm (hoặc bằng chính độ dài bán kính)." },
+                { id: "fill_8", type: "fill", question: "Một mặt bàn tròn có đường kính dài 80 cm. Bán kính mặt bàn đó dài bao nhiêu cm?", correct: "40", unit: "cm", explanation: "Bán kính = 80 : 2 = 40 cm." },
+                { id: "fill_9", type: "fill", question: "Cho hình tròn tâm O có bán kính 4 cm. Tính tổng độ dài của 1 đường kính và 1 bán kính trong hình tròn đó.", correct: "12", unit: "cm", explanation: "Đường kính = 4 × 2 = 8 cm. Tổng = 8 + 4 = 12 cm." },
+                { id: "fill_10", type: "fill", question: "Một biển báo giao thông hình tròn có bán kính 22 cm. Đường kính của biển báo đó dài bao nhiêu cm?", correct: "44", unit: "cm", explanation: "Đường kính = 22 × 2 = 44 cm." },
+                { id: "fill_11", type: "fill", question: "Cho hình tròn có đường kính 100 cm. Bán kính của hình tròn đó là bao nhiêu cm?", correct: "50", unit: "cm", explanation: "Bán kính = 100 : 2 = 50 cm." },
+                { id: "fill_12", type: "fill", question: "Nếu độ dài đường kính hình tròn tăng thêm 6 cm thì độ dài bán kính hình tròn đó tăng thêm bao nhiêu cm?", correct: "3", unit: "cm", explanation: "Vì đường kính gấp 2 lần bán kính nên khi đường kính tăng 6 cm, bán kính sẽ tăng 6 : 2 = 3 cm." }
+            ],
+
+            tf: [
+                {
+                    id: "tf_1", type: "tf", question: "Xét tính Đúng / Sai của các phát biểu sau về Hình Tròn:",
+                    items: [
+                        { text: "Trong một hình tròn, độ dài các bán kính đều bằng nhau.", correct: true },
+                        { text: "Đoạn thẳng nối 2 điểm bất kỳ trên đường tròn luôn là đường kính.", correct: false },
+                        { text: "Tâm O là trung điểm của mọi đường kính trong hình tròn đó.", correct: true }
+                    ],
+                    explanation: "a) Đúng vì tất cả bán kính bằng nhau. b) Sai vì đường kính phải ĐI QUA TÂM. c) Đúng vì Tâm O chia đường kính thành 2 bán kính bằng nhau."
+                },
+                {
+                    id: "tf_2", type: "tf", question: "Cho hình tròn tâm O có bán kính R = 5 cm. Cho biết tính Đúng / Sai:",
+                    items: [
+                        { text: "Đường kính của hình tròn đó bằng 10 cm.", correct: true },
+                        { text: "Mọi đoạn thẳng nối từ tâm O ra đường tròn đều dài 5 cm.", correct: true },
+                        { text: "Độ dài đường kính ngắn hơn độ dài bán kính.", correct: false }
+                    ],
+                    explanation: "a) Đúng: 5 × 2 = 10 cm. b) Đúng: Đó là các bán kính. c) Sai: Đường kính luôn gấp đôi bán kính."
+                },
+                {
+                    id: "tf_3", type: "tf", question: "Xét tính Đúng / Sai của các câu sau:",
+                    items: [
+                        { text: "Hình tròn chỉ có duy nhất 2 bán kính.", correct: false },
+                        { text: "Hình tròn có vô số đường kính.", correct: true },
+                        { text: "Đường kính dài gấp 2 lần bán kính.", correct: true }
+                    ],
+                    explanation: "a) Sai vì hình tròn có vô số bán kính. b) Đúng vì có vô số đường thẳng đi qua tâm. c) Đúng theo công thức."
+                },
+                {
+                    id: "tf_4", type: "tf", question: "Cho đoạn thẳng AB dài 14 cm đi qua tâm O của hình tròn. Xác định Đúng / Sai:",
+                    items: [
+                        { text: "AB chính là một đường kính của hình tròn tâm O.", correct: true },
+                        { text: "Đoạn thẳng OA dài 7 cm.", correct: true },
+                        { text: "Đoạn thẳng OB dài 14 cm.", correct: false }
+                    ],
+                    explanation: "a) Đúng. b) Đúng vì OA là bán kính = 14 : 2 = 7 cm. c) Sai vì OB cũng là bán kính = 7 cm."
+                },
+                {
+                    id: "tf_5", type: "tf", question: "Xác định tính Đúng hay Sai của các khẳng định sau:",
+                    items: [
+                        { text: "Mặt đồng hồ tròn có bán kính 10 cm thì đường kính bằng 20 cm.", correct: true },
+                        { text: "Hình tròn có đường kính 8 cm thì bán kính bằng 16 cm.", correct: false },
+                        { text: "Nối tâm O với điểm A nằm ngoài hình tròn ta được bán kính OA.", correct: false }
+                    ],
+                    explanation: "a) Đúng (10 × 2 = 20). b) Sai (Bán kính = 8 : 2 = 4 cm). c) Sai (Điểm A phải nằm TRÊN đường tròn)."
+                },
+                {
+                    id: "tf_6", type: "tf", question: "Cho hình tròn tâm O. Kiểm tra tính Đúng / Sai của các phát biểu:",
+                    items: [
+                        { text: "Tâm O nằm chính giữa hình tròn.", correct: true },
+                        { text: "Hai bán kính bất kỳ luôn tạo thành một đường kính.", correct: false },
+                        { text: "Bán kính bằng một nửa đường kính.", correct: true }
+                    ],
+                    explanation: "a) Đúng. b) Sai vì hai bán kính phải thẳng hàng với nhau qua tâm mới thành đường kính. c) Đúng."
+                }
+            ]
+        };
+
+        let currentQuestions = [];
+        let timerInterval = null;
+        let totalSeconds = 35 * 60;
+        let timeElapsed = 0;
+        let startTimeFormatted = "";
+        let endTimeFormatted = "";
+
+        function createBubbles() {
+            const container = document.getElementById('bubblesContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 40 + 20;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDelay = `${Math.random() * 8}s`;
+                bubble.style.animationDuration = `${Math.random() * 6 + 8}s`;
+                container.appendChild(bubble);
+            }
+        }
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function startQuiz() {
+            const selectedMCQ = shuffleArray(questionBank.mcq).slice(0, 10);
+            const selectedFILL = shuffleArray(questionBank.fill).slice(0, 10);
+            const selectedTF = shuffleArray(questionBank.tf).slice(0, 5);
+
+            const processedMCQ = selectedMCQ.map(q => {
+                const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, isCorrect: idx === q.correct }));
+                const shuffledOpts = shuffleArray(optionsWithIndex);
+                const newCorrect = shuffledOpts.findIndex(o => o.isCorrect);
+                return {
+                    ...q,
+                    options: shuffledOpts.map(o => o.text),
+                    correct: newCorrect
+                };
+            });
+
+            currentQuestions = shuffleArray([...processedMCQ, ...selectedFILL, ...selectedTF]);
+
+            renderQuestions();
+
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.add('flex');
+
+            const now = new Date();
+            startTimeFormatted = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' ' + now.toLocaleDateString('vi-VN');
+
+            totalSeconds = 35 * 60;
+            timeElapsed = 0;
+            updateTimerDisplay();
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+                timeElapsed++;
+                updateTimerDisplay();
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Đã hết thời gian 35 phút làm bài! Hệ thống sẽ tự động nộp bài.");
+                    submitQuiz();
+                }
+            }, 1000);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsList');
+            container.innerHTML = '';
+
+            currentQuestions.forEach((q, index) => {
+                const qNum = index + 1;
+                let qHtml = '';
+
+                if (q.type === 'mcq') {
+                    qHtml = `
+                        <div class="bg-white rounded-3xl p-5 md:p-7 shadow-md border border-slate-200 hover:border-blue-300 transition" id="card_${q.id}">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <span class="bg-blue-600 text-white font-bold text-sm px-3 py-1 rounded-xl">Câu ${qNum}</span>
+                                <span class="text-xs bg-blue-50 text-blue-700 font-semibold px-2.5 py-1 rounded-lg">Trắc nghiệm</span>
+                            </div>
+                            <p class="text-base md:text-lg font-bold text-slate-800 mb-5 leading-relaxed">${q.question}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                ${q.options.map((opt, optIdx) => `
+                                    <div class="relative">
+                                        <input type="radio" id="${q.id}_opt_${optIdx}" name="${q.id}" value="${optIdx}" class="radio-custom hidden" onchange="updateProgress()">
+                                        <label for="${q.id}_opt_${optIdx}" class="flex items-center p-3.5 border-2 border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-50 transition text-sm md:text-base text-slate-700">
+                                            <span class="w-7 h-7 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-xs mr-3 text-slate-500">${String.fromCharCode(65 + optIdx)}</span>
+                                            <span>${opt}</span>
+                                        </label>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (q.type === 'fill') {
+                    qHtml = `
+                        <div class="bg-white rounded-3xl p-5 md:p-7 shadow-md border border-slate-200 hover:border-blue-300 transition" id="card_${q.id}">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <span class="bg-indigo-600 text-white font-bold text-sm px-3 py-1 rounded-xl">Câu ${qNum}</span>
+                                <span class="text-xs bg-indigo-50 text-indigo-700 font-semibold px-2.5 py-1 rounded-lg">Điền số</span>
+                            </div>
+                            <p class="text-base md:text-lg font-bold text-slate-800 mb-5 leading-relaxed">${q.question}</p>
+                            <div class="flex items-center space-x-3 max-w-xs">
+                                <input type="number" id="input_${q.id}" class="w-full p-3.5 border-2 border-slate-200 rounded-2xl focus:border-blue-500 focus:outline-none text-slate-800 font-bold text-lg text-center" placeholder="Nhập số..." oninput="updateProgress()">
+                                ${q.unit ? `<span class="font-bold text-slate-600 text-base">${q.unit}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                } else if (q.type === 'tf') {
+                    qHtml = `
+                        <div class="bg-white rounded-3xl p-5 md:p-7 shadow-md border border-slate-200 hover:border-blue-300 transition" id="card_${q.id}">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <span class="bg-amber-500 text-white font-bold text-sm px-3 py-1 rounded-xl">Câu ${qNum}</span>
+                                <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-lg">Đúng / Sai</span>
+                            </div>
+                            <p class="text-base md:text-lg font-bold text-slate-800 mb-4 leading-relaxed">${q.question}</p>
+                            <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                                ${q.items.map((item, itemIdx) => `
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-slate-200 gap-3">
+                                        <span class="text-sm md:text-base font-medium text-slate-700">${String.fromCharCode(97 + itemIdx)}) ${item.text}</span>
+                                        <div class="flex items-center space-x-4 self-end sm:self-auto">
+                                            <label class="flex items-center space-x-1.5 cursor-pointer text-sm font-bold text-emerald-600">
+                                                <input type="radio" name="${q.id}_sub_${itemIdx}" value="true" class="w-4 h-4 accent-emerald-600" onchange="updateProgress()">
+                                                <span>Đúng</span>
+                                            </label>
+                                            <label class="flex items-center space-x-1.5 cursor-pointer text-sm font-bold text-rose-600">
+                                                <input type="radio" name="${q.id}_sub_${itemIdx}" value="false" class="w-4 h-4 accent-rose-600" onchange="updateProgress()">
+                                                <span>Sai</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.insertAdjacentHTML('beforeend', qHtml);
+            });
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let answeredCount = 0;
+
+            currentQuestions.forEach(q => {
+                if (q.type === 'mcq') {
+                    if (document.querySelector(`input[name="${q.id}"]:checked`)) answeredCount++;
+                } else if (q.type === 'fill') {
+                    const input = document.getElementById(`input_${q.id}`);
+                    if (input && input.value.trim() !== '') answeredCount++;
+                } else if (q.type === 'tf') {
+                    let allSubAnswered = true;
+                    q.items.forEach((_, idx) => {
+                        if (!document.querySelector(`input[name="${q.id}_sub_${idx}"]:checked`)) allSubAnswered = false;
+                    });
+                    if (allSubAnswered) answeredCount++;
+                }
+            });
+
+            document.getElementById('progressText').innerText = `${answeredCount}/25 câu`;
+            const percentage = (answeredCount / 25) * 100;
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+        }
+
+        function confirmSubmit() {
+            let answeredCount = 0;
+            currentQuestions.forEach(q => {
+                if (q.type === 'mcq') {
+                    if (document.querySelector(`input[name="${q.id}"]:checked`)) answeredCount++;
+                } else if (q.type === 'fill') {
+                    const val = document.getElementById(`input_${q.id}`)?.value.trim();
+                    if (val) answeredCount++;
+                } else if (q.type === 'tf') {
+                    let allSub = true;
+                    q.items.forEach((_, idx) => {
+                        if (!document.querySelector(`input[name="${q.id}_sub_${idx}"]:checked`)) allSub = false;
+                    });
+                    if (allSub) answeredCount++;
+                }
+            });
+
+            const modalText = document.getElementById('modalUnansweredText');
+            if (answeredCount < 25) {
+                modalText.innerHTML = `Em mới hoàn thành <b class="text-blue-600">${answeredCount}/25 câu</b>. Vẫn còn ${25 - answeredCount} câu chưa làm. Em có muốn nộp bài luôn không?`;
+            } else {
+                modalText.innerText = "Em đã hoàn thành tất cả 25 câu hỏi! Nhấn Nộp bài để xem điểm nhé.";
+            }
+
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            closeModal();
+            clearInterval(timerInterval);
+
+            const now = new Date();
+            endTimeFormatted = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' ' + now.toLocaleDateString('vi-VN');
+
+            let correctQuestionsCount = 0;
+            const detailedResults = [];
+
+            currentQuestions.forEach((q, index) => {
+                let isCorrect = false;
+                let studentAnswerText = "";
+                let correctAnswerText = "";
+
+                if (q.type === 'mcq') {
+                    const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                    const studentChoice = selected ? parseInt(selected.value) : -1;
+                    if (studentChoice === q.correct) {
+                        isCorrect = true;
+                    }
+                    studentAnswerText = studentChoice !== -1 ? `${String.fromCharCode(65 + studentChoice)}. ${q.options[studentChoice]}` : 'Chưa trả lời';
+                    correctAnswerText = `${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}`;
+                } else if (q.type === 'fill') {
+                    const inputVal = document.getElementById(`input_${q.id}`)?.value.trim() || "";
+                    if (inputVal === q.correct) {
+                        isCorrect = true;
+                    }
+                    studentAnswerText = inputVal !== "" ? `${inputVal} ${q.unit || ''}` : 'Chưa nhập số';
+                    correctAnswerText = `${q.correct} ${q.unit || ''}`;
+                } else if (q.type === 'tf') {
+                    let subCorrectCount = 0;
+                    let studentSubAnswers = [];
+                    let correctSubAnswers = [];
+
+                    q.items.forEach((item, idx) => {
+                        const selected = document.querySelector(`input[name="${q.id}_sub_${idx}"]:checked`);
+                        const studentVal = selected ? (selected.value === "true") : null;
+                        
+                        if (studentVal === item.correct) {
+                            subCorrectCount++;
+                        }
+
+                        const subChar = String.fromCharCode(97 + idx);
+                        studentSubAnswers.push(`${subChar}) ${studentVal === null ? 'Chưa chọn' : (studentVal ? 'Đúng' : 'Sai')}`);
+                        correctSubAnswers.push(`${subChar}) ${item.correct ? 'Đúng' : 'Sai'}`);
+                    });
+
+                    if (subCorrectCount === q.items.length) {
+                        isCorrect = true;
+                    }
+
+                    studentAnswerText = studentSubAnswers.join(' | ');
+                    correctAnswerText = correctSubAnswers.join(' | ');
+                }
+
+                if (isCorrect) correctQuestionsCount++;
+
+                detailedResults.push({
+                    qNum: index + 1,
+                    question: q.question,
+                    type: q.type,
+                    isCorrect: isCorrect,
+                    studentAnswer: studentAnswerText,
+                    correctAnswer: correctAnswerText,
+                    explanation: q.explanation
+                });
+            });
+
+            const scoreOn10 = ((correctQuestionsCount / 25) * 10).toFixed(1);
+
+            document.getElementById('finalScore').innerText = `${scoreOn10} / 10`;
+            document.getElementById('correctRatioText').innerText = `Đúng: ${correctQuestionsCount}/25 câu`;
+            document.getElementById('startTimeText').innerText = startTimeFormatted;
+            document.getElementById('endTimeText').innerText = endTimeFormatted;
+
+            const minsSpent = Math.floor(timeElapsed / 60);
+            const secsSpent = timeElapsed % 60;
+            const durationFormatted = `${minsSpent} phút ${secsSpent} giây`;
+            document.getElementById('durationText').innerText = durationFormatted;
+
+            const feedbackEl = document.getElementById('scoreFeedback');
+            if (scoreOn10 >= 9) {
+                feedbackEl.innerText = "Xuất sắc! Em nắm rất chắc kiến thức về hình tròn!";
+            } else if (scoreOn10 >= 7) {
+                feedbackEl.innerText = "Giỏi lắm Cẩm Tiên! Hãy phát huy ở các bài ôn tiếp theo nhé!";
+            } else if (scoreOn10 >= 5) {
+                feedbackEl.innerText = "Khá tốt! Em xem lại lời giải các câu sai để nhớ lâu hơn nhé!";
+            } else {
+                feedbackEl.innerText = "Cố gắng luyện tập thêm em nhé! Đọc kỹ lời giải bên dưới nào.";
+            }
+
+            renderReviewList(detailedResults);
+
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('timerContainer').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // GỬI DỮ LIỆU TỰ ĐỘNG SANG GOOGLE SHEETS
+            sendDataToGoogleSheets({
+                studentName: "Cẩm Tiên",
+                startTime: startTimeFormatted,
+                endTime: endTimeFormatted,
+                duration: durationFormatted,
+                testTitle: "Hình Tròn, Tâm, Bán Kính & Đường Kính",
+                correctRatio: `${correctQuestionsCount}/25`,
+                score: scoreOn10,
+                detailedResults: detailedResults
+            });
+        }
+
+        // HÀM TỰ ĐỘNG ĐẨY DỮ LIỆU SANG GOOGLE SHEETS
+        function sendDataToGoogleSheets(quizData) {
+            const statusEl = document.getElementById('sheetStatus');
+            statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-blue-500 mr-1.5"></i> Đang gửi dữ liệu bài làm lên Google Sheets...';
+            statusEl.className = 'text-xs font-semibold text-blue-600 mb-4 py-2 px-4 rounded-xl bg-blue-50 inline-block';
+
+            // Tạo mã bài làm theo định dạng TIEN_[ngày]_[4 số ngẫu nhiên]
+            const dayStr = new Date().getDate().toString().padStart(2, '0');
+            const randomCode = Math.floor(1000 + Math.random() * 9000);
+            const testId = `TIEN_${dayStr}_${randomCode}`;
+
+            const payload = {
+                testId: testId,
+                studentName: quizData.studentName,
+                testTitle: quizData.testTitle,
+                startTime: quizData.startTime,
+                endTime: quizData.endTime,
+                duration: quizData.duration,
+                scoreRatio: quizData.correctRatio,
+                score: quizData.score,
+                details: quizData.detailedResults.map(item => ({
+                    qNum: item.qNum,
+                    question: item.question,
+                    type: item.type === 'mcq' ? 'Trắc nghiệm' : (item.type === 'fill' ? 'Điền số' : 'Đúng/Sai'),
+                    correctAnswer: item.correctAnswer,
+                    studentAnswer: item.studentAnswer,
+                    isCorrect: item.isCorrect,
+                    points: item.isCorrect ? 0.4 : 0
+                }))
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                statusEl.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i> Đã đồng bộ kết quả thành công lên Google Sheets!';
+                statusEl.className = 'text-xs font-semibold text-emerald-700 mb-4 py-2 px-4 rounded-xl bg-emerald-50 inline-block';
+            }).catch(err => {
+                console.error("Lỗi đồng bộ Sheets:", err);
+                statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-500 mr-1.5"></i> Không thể gửi dữ liệu lên Sheets. Kiểm tra lại kết nối!';
+                statusEl.className = 'text-xs font-semibold text-amber-700 mb-4 py-2 px-4 rounded-xl bg-amber-50 inline-block';
+            });
+        }
+
+        function renderReviewList(results) {
+            const container = document.getElementById('reviewList');
+            container.innerHTML = '';
+
+            results.forEach(res => {
+                const card = document.createElement('div');
+                card.className = `p-5 md:p-6 rounded-3xl border-2 ${res.isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'}`;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-sm px-3 py-1 rounded-xl ${res.isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'}">
+                                Câu ${res.qNum}
+                            </span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${res.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                                ${res.isCorrect ? 'ĐÚNG' : 'SAI'}
+                            </span>
+                        </div>
+                        <i class="fa-solid ${res.isCorrect ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600'} text-2xl"></i>
+                    </div>
+
+                    <p class="font-bold text-slate-800 text-base mb-4">${res.question}</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4 text-sm">
+                        <div class="p-3 bg-white rounded-xl border border-slate-200">
+                            <span class="text-xs text-slate-400 block font-medium mb-1">Cẩm Tiên chọn:</span>
+                            <span class="font-bold ${res.isCorrect ? 'text-emerald-700' : 'text-rose-600'}">${res.studentAnswer}</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200">
+                            <span class="text-xs text-slate-400 block font-medium mb-1">Đáp án đúng chuẩn:</span>
+                            <span class="font-bold text-emerald-700">${res.correctAnswer}</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 p-3.5 rounded-xl border border-slate-200 text-xs md:text-sm text-slate-700">
+                        <span class="font-bold text-blue-600 block mb-1"><i class="fa-solid fa-lightbulb mr-1"></i>Lời giải chi tiết:</span>
+                        <p class="leading-relaxed">${res.explanation}</p>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function restartQuiz() {
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            createBubbles();
+        };
+    </script>
+</body>
+</html>
